@@ -109,7 +109,7 @@ const CartDetailsScreen = ({navigation}) => {
               fontWeight: '800',
               color: 'white',
             }}>
-            Total Price : <Text style={{color: 'orange'}}>{getTotal()}</Text>
+            Total Price : <Text style={{color: 'orange'}}>₹{getTotal()}</Text>
           </Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('PlaceOrderDetails')}

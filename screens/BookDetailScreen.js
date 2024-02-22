@@ -23,6 +23,10 @@ const BookDetailScreen = ({route}) => {
 
   const handleCart = () => {
     dispatch(addBookToCart(route.params))
+    Alert.alert(
+      "Success",
+      "Book has been added to Cart Successfully"
+    )
   };
 
   return (

@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(5),
     borderRadius: 15,
     borderWidth: 1,
-    width: responsiveWidth(83),
+    width: responsiveWidth(84),
   },
   booktext: {
     fontSize: responsiveFontSize(3),
