@@ -7,44 +7,124 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  addBookToCart,
+  deleteBookToCart,
+  removeBookToCart,
+} from '../Redux/CartSlice';
 
 const CartDetailsScreen = ({navigation}) => {
+  const CartItems = useSelector(state => state.cart);
+  const dispatch = useDispatch();
+
+  const getTotal=()=>{
+    let total=0;
+    CartItems.map((item)=>{
+      total=total+item.qty * item.price
+    });
+    return total;
+  }
+
   return (
     // ......Order Details......
+
+    CartItems.length !== 0 ? (
       <View style={styles.CartContainer}>
         <FlatList
-          data={[1, 1, 1, 1]}
-          renderItem={(item, index) => (
+          data={CartItems}
+          keyExtractor={item => item.id}
+          renderItem={element => (
             <View style={styles.innerContainer}>
-              <Image
-                style={styles.image}
-                source={require('../assests/bookimage/RichDadPoorDad.jpg')}
-              />
-              <View style={{marginVertical: 10}}>
-                <Text style={styles.titletxt}>Rich Dad Poor Dad</Text>
-                <Text style={styles.authortxt}>Robert T. Kiyosaki</Text>
-                <Text style={styles.pricetxt}>Price : ₹1000</Text>
+              <Image style={styles.image} source={element.item.image} />
+              <View style={{marginVertical: 10, width: responsiveWidth(60)}}>
+                <Text style={styles.titletxt}>{element.item.title}</Text>
+                <Text style={styles.authortxt}>{element.item.author}</Text>
+                <Text style={styles.pricetxt}>
+                  Price : ₹<Text>{element.item.price}</Text>
+                </Text>
                 <Text>Inclusive Of All Taxes</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: 15,
+                  }}>
+                  <TouchableOpacity
+                    style={styles.btntxt}
+                    onPress={() => {
+                      if (element.item.qty > 1) {
+                        dispatch(removeBookToCart(element.item));
+                      } else {
+                        dispatch(deleteBookToCart(element.item.id));
+                      }
+                    }}>
+                    <Text style={{fontWeight: 'bold', color: 'black'}}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={{fontWeight: '900'}}> {element.item.qty} </Text>
+                  <TouchableOpacity
+                    style={styles.btntxt}
+                    onPress={() => dispatch(addBookToCart(element.item))}>
+                    <Text style={{fontWeight: 'bold', color: 'black'}}>+</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => dispatch(deleteBookToCart(element.item.id))}
+                    style={{
+                      backgroundColor: '#FFF',
+                      padding: 7,
+                      borderRadius: 10,
+                      borderWidth: 1.5,
+                      borderColor: 'red',
+                      alignSelf: 'flex-end',
+                    }}>
+                    <View>
+                      <Text style={{color: 'red', fontWeight: '700'}}>
+                        Remove
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <TouchableOpacity>
-                  <View style={{backgroundColor:"#FFF",padding:7,borderRadius:10,top:120,borderWidth:1.5,borderColor:"red"}}>
-                    <Text style={{color:"red",fontWeight:"700"}}>Remove</Text>
-                  </View>
-              </TouchableOpacity>
             </View>
           )}
         />
-        <View style={{flexDirection:"row",justifyContent:"space-between",padding:9,backgroundColor: '#383838',alignItems:"center"}}>
-          <Text style={{fontSize:responsiveFontSize(2.5),fontWeight:"800",color:"white"}}>Total Price : <Text style={{color:"orange"}}>₹4000</Text></Text>
-          <TouchableOpacity onPress={()=>navigation.navigate("PlaceOrderDetails")} style={styles.btntxt}><Text style={{fontWeight:"800",color:"skyblue"}}>Place Order</Text></TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: 9,
+            backgroundColor: '#383838',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: responsiveFontSize(2.5),
+              fontWeight: '800',
+              color: 'white',
+            }}>
+            Total Price : <Text style={{color: 'orange'}}>{getTotal()}</Text>
+          </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('PlaceOrderDetails')}
+            style={styles.btntxt}>
+            <Text style={{fontWeight: '800', color: 'skyblue'}}>
+              Place Order
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
+    ) : (
+      <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+        <Text style={{fontSize:20,fontWeight:"600"}}>Add to Cart Now</Text>
+      </View>
+    )
   );
 };
 
@@ -56,26 +136,27 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     backgroundColor: '#fff',
-    height: responsiveHeight(21),
+    height: responsiveHeight(23),
     margin: 10,
     elevation: 1,
     borderRadius: 10,
     resizeMode: 'contain',
     flexDirection: 'row',
-    padding:5
+    padding: 5,
   },
   image: {
     objectFit: 'contain',
     height: responsiveHeight(20),
     width: responsiveWidth(33),
+    alignSelf: 'center',
   },
   titletxt: {
-    fontSize:responsiveFontSize(2.5),
+    fontSize: responsiveFontSize(2.5),
     fontWeight: 'bold',
     color: 'black',
   },
   pricetxt: {
-    fontSize:responsiveFontSize(2.3),
+    fontSize: responsiveFontSize(2.3),
     marginTop: 20,
     color: 'green',
     fontWeight: '500',
@@ -83,10 +164,10 @@ const styles = StyleSheet.create({
   authortxt: {
     fontSize: responsiveFontSize(1.7),
   },
-  btntxt:{
-    borderColor:"skyblue",
-    padding:10,
-    borderRadius:10,
-    borderWidth:1
-  }
+  btntxt: {
+    borderColor: 'skyblue',
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 1.5,
+  },
 });

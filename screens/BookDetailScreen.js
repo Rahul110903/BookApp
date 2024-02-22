@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -12,11 +13,18 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
+import {useDispatch, useSelector} from 'react-redux';
+import {addBookToCart} from '../Redux/CartSlice';
 
 const BookDetailScreen = ({route}) => {
-  const [cart, setcart] = useState(false);
 
-  const {title, author, image, price, description} = route.params;
+  const dispatch = useDispatch();
+  const {title, author, image, price, description,qty} = route.params;
+
+  const handleCart = () => {
+    dispatch(addBookToCart(route.params))
+  };
+
   return (
     // Book Details......
     <>
@@ -42,26 +50,23 @@ const BookDetailScreen = ({route}) => {
         <View>
           <TouchableOpacity
             style={styles.btnContainer}
-            onPress={() => setcart(!cart)}>
+            onPress={() => handleCart()}>
             <Text
               style={{
-                color: 'black',
-                fontWeight: '900',
+                color: 'white',
                 fontSize: responsiveFontSize(2),
-              }}>{
-                cart? "Added" : "Add to Cart:" 
-              }
+              }}>
+              {qty!==0? 'Go to Cart' : 'Add to Cart:'}
             </Text>
             <View>
               <Image
                 style={styles.btnicon}
                 source={
-                  cart
+                  qty!==0
                     ? require('../assests/icon/checked.png')
                     : require('../assests/icon/grocery-store.png')
                 }
               />
-              {/* <Text style={{color:"blue",fontWeight:"700",fontSize:15}}>Add to Cart</Text> */}
             </View>
           </TouchableOpacity>
         </View>
@@ -78,7 +83,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: responsiveHeight(35),
-    objectFit: "contain",
+    objectFit: 'contain',
   },
   titletxt: {
     fontSize: responsiveFontSize(3),
@@ -107,7 +112,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#383838',
-    padding:5,
+    padding: 5,
   },
   btnicon: {
     objectFit: 'contain',
@@ -120,8 +125,8 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 3,
     borderColor: 'black',
-    elevation:1,
-    borderWidth:1
+    borderWidth: 1,
+    borderRadius: 10,
   },
 });
 export default BookDetailScreen;

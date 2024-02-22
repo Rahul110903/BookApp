@@ -18,11 +18,13 @@ const Books = ({book, navigation}) => {
       <TouchableOpacity style={styles.bookContainer}
         onPress={() =>
           navigation.navigate('BookDetail', {
+            id:book.id,
             title: book.title,
             author: book.author,
             image: book.imageLink,
             price: book.price,
             description: book.description,
+            qty:book.qty
           })
         }>
         <View>

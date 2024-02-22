@@ -13,12 +13,15 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {BooksData} from '../config/data';
 import Books from '../components/Books';
+import {useSelector} from 'react-redux';
 
 const BookListScreen = ({navigation}) => {
   const [search, setSearch] = useState('');
   const [filterBooks, setFilterBooks] = useState();
+
+  const BooksData = useSelector(state => state.Books);
+  const CartItems = useSelector(state => state.cart);
 
   const handleSearch = text => {
     setSearch(text);
@@ -40,6 +43,7 @@ const BookListScreen = ({navigation}) => {
       <View style={styles.searchContainer}>
         <View style={styles.searchBox}>
           <TextInput
+            maxLength={20}
             keyboardType="default"
             value={search}
             placeholder="Search"
@@ -51,30 +55,44 @@ const BookListScreen = ({navigation}) => {
           />
         </View>
         <View>
-          <TouchableOpacity onPress={()=>navigation.navigate("CartDetails")}>
+          <TouchableOpacity onPress={() => navigation.navigate('CartDetails')}>
             <Image
               style={styles.searchicon}
               source={require('../assests/icon/shopping-cart.png')}
             />
-            <View style={styles.dot}></View>
+            {CartItems.length !== 0 ? (
+              <View style={styles.dot}>
+                <Text style={{color: 'white', fontSize: 20}}>
+                  {CartItems.length}
+                </Text>
+              </View>
+            ) : null}
           </TouchableOpacity>
         </View>
       </View>
 
       {/* List of all Books Field */}
-      <View>
-        <Text style={styles.booktext}>All Books Available Shop Now !!</Text>
-        <View style={{marginTop: 5}}>
-          <FlatList
-            contentContainerStyle={{paddingBottom: 150}}
-            data={search ? filterBooks : BooksData}
-            keyExtractor={text => text.id}
-            renderItem={text => (
-              <Books book={text.item} navigation={navigation} />
-            )}
-          />
+      {filterBooks !== 0 ? (
+        <View>
+          <Text style={styles.booktext}>All Books Available Shop Now !!</Text>
+          <View style={{marginTop: 5}}>
+            <FlatList
+              contentContainerStyle={{paddingBottom: 150}}
+              data={search ? filterBooks : BooksData}
+              keyExtractor={text => text.id}
+              renderItem={text => (
+                <Books book={text.item} navigation={navigation} />
+              )}
+            />
+          </View>
         </View>
-      </View>
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text style={{fontSize: 20, fontWeight: '600'}}>
+            No Book Found...
+          </Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -100,7 +118,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(5),
     borderRadius: 15,
     borderWidth: 1,
-    flex: 1,
+    width: responsiveWidth(83),
   },
   booktext: {
     fontSize: responsiveFontSize(3),
@@ -110,12 +128,15 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   dot: {
-    height: 11,
-    width: 11,
-    backgroundColor: 'red',
-    borderRadius: 50,
+    backgroundColor: 'black',
+    borderRadius: 30,
     position: 'absolute',
-    left: 23,
+    left: 21,
+    bottom: 10,
+    height: 30,
+    width: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default BookListScreen;

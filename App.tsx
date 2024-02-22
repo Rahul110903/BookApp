@@ -5,7 +5,7 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
@@ -23,10 +23,21 @@ import BookDetailScreen from './screens/BookDetailScreen';
 import Books from './components/Books';
 import CartDetailsScreen from './screens/CartDetailsScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import { useDispatch } from 'react-redux';
+import { BooksData } from './config/data';
+import { addBooks } from './Redux/BookSlice';
 
 const App=()=>{
 
+  const Dispatch=useDispatch();
   const Stack = createNativeStackNavigator();
+
+  useEffect(()=>{
+    BooksData.map((item)=>{
+      Dispatch(addBooks(item))
+    })
+  })
+
   return(
     // <BookListScreen/>
     <NavigationContainer>
