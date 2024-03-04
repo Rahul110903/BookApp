@@ -24,7 +24,7 @@ const BookDetailScreen = ({route}) => {
   const handleCart = () => {
     dispatch(addBookToCart(route.params))
     Alert.alert(
-      "Success",
+      "Hurrayy!!",
       "Book has been added to Cart Successfully"
     )
   };
@@ -57,7 +57,7 @@ const BookDetailScreen = ({route}) => {
             onPress={() => handleCart()}>
             <Text
               style={{
-                color: 'white',
+                color: 'black',
                 fontSize: responsiveFontSize(2),
               }}>
               {qty!==0? 'Go to Cart' : 'Add to Cart:'}
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#383838',
-    padding: 5,
+    padding: 10,
   },
   btnicon: {
     objectFit: 'contain',
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 10,
+    backgroundColor:"#faaa64"
   },
 });
 export default BookDetailScreen;

@@ -26,6 +26,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import { useDispatch } from 'react-redux';
 import { BooksData } from './config/data';
 import { addBooks } from './Redux/BookSlice';
+import Main from './screens/Main';
 
 const App=()=>{
 
@@ -42,7 +43,7 @@ const App=()=>{
     // <BookListScreen/>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="BookList" component={BookListScreen} options={{
+        <Stack.Screen name="Main" component={Main} options={{
           headerShown:false
         }}/>
         <Stack.Screen name="BookDetail" component={BookDetailScreen} options={{
@@ -58,5 +59,7 @@ const App=()=>{
     </NavigationContainer>
   )
 }
+
+
 
 export default App;

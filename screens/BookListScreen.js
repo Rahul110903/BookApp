@@ -41,9 +41,15 @@ const BookListScreen = ({navigation}) => {
     <View style={{flex: 1}}>
       {/* SearchField */}
       <View style={styles.searchContainer}>
+        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+          <Image
+            style={styles.searchicon}
+            source={require("../assests/icon/category.png")}
+          />
+        </TouchableOpacity>
         <View style={styles.searchBox}>
           <TextInput
-            maxLength={20}
+            style={{flex:1}}
             keyboardType="default"
             value={search}
             placeholder="Search"
@@ -103,12 +109,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:"space-evenly"
   },
   searchicon: {
     height: responsiveHeight(3),
     width: responsiveWidth(6),
     objectFit: 'contain',
-    marginHorizontal: 5,
   },
   searchBox: {
     flexDirection: 'row',
@@ -118,7 +124,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(5),
     borderRadius: 15,
     borderWidth: 1,
-    width: responsiveWidth(84),
+    width: responsiveWidth(70),
   },
   booktext: {
     fontSize: responsiveFontSize(3),
