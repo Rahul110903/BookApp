@@ -27,6 +27,8 @@ import { useDispatch } from 'react-redux';
 import { BooksData } from './config/data';
 import { addBooks } from './Redux/BookSlice';
 import Main from './screens/Main';
+import LoginScreen from './screens/LoginScreen';
+import SignUpScreen from './screens/SignUpScreen';
 
 const App=()=>{
 
@@ -40,9 +42,10 @@ const App=()=>{
   })
 
   return(
-    // <BookListScreen/>
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        headerStyle:{backgroundColor:"#40A2E3"}
+      }}>
         <Stack.Screen name="Main" component={Main} options={{
           headerShown:false
         }}/>
@@ -54,6 +57,12 @@ const App=()=>{
         }}/>
         <Stack.Screen name="PlaceOrderDetails" component={PlaceOrderScreen} options={{
           headerTitle:"Order Summary"
+        }}/>
+        <Stack.Screen name="Login" component={LoginScreen} options={{
+          headerTitle:"Log In"
+        }}/>
+        <Stack.Screen name="SignUp" component={SignUpScreen} options={{
+          headerTitle:"Sign Up"
         }}/>
       </Stack.Navigator>
     </NavigationContainer>

@@ -29,7 +29,7 @@ const Bottom = () => {
       initialRouteName="Home"
       activeColor="#faaf37"
       shifting={true}
-      barStyle={{backgroundColor: 'grey', height: 67}}
+      barStyle={{height: 67}}
       activeIndicatorStyle={{backgroundColor: '#faaf37'}}
       keyboardHidesNavigationBar={true}>
       <Tab.Screen

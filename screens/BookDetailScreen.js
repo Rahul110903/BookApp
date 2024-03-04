@@ -15,18 +15,31 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useDispatch, useSelector} from 'react-redux';
 import {addBookToCart} from '../Redux/CartSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AskForLogin from '../common/AskForLogin';
 
-const BookDetailScreen = ({route}) => {
+const BookDetailScreen = ({route,navigation}) => {
 
+  const [toggle,setToggle] = useState(false)
   const dispatch = useDispatch();
-  const {title, author, image, price, description,qty} = route.params;
+  const {title, author, image, price, description, qty} = route.params;
+
+  const checkUserStatus = async () => {
+    const status = await AsyncStorage.getItem('IS_USER_LOGGED_IN');
+    if (status === null) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 
   const handleCart = () => {
-    dispatch(addBookToCart(route.params))
-    Alert.alert(
-      "Hurrayy!!",
-      "Book has been added to Cart Successfully"
-    )
+    if (checkUserStatus === true) {
+      dispatch(addBookToCart(route.params));
+      Alert.alert('Hurrayy!!', 'Book has been added to Cart Successfully');
+    } else {
+      setToggle(true)
+    }
   };
 
   return (
@@ -45,9 +58,9 @@ const BookDetailScreen = ({route}) => {
       <View style={styles.bottomContainer}>
         <View>
           <Text style={styles.pricetxt}>
-            Buy now:<Text style={{color: 'orange'}}> ₹{price}</Text>
+            Buy now:<Text style={{color: '#00450a'}}> ₹{price}</Text>
           </Text>
-          <Text style={{fontSize: responsiveFontSize(1.5), color: 'white'}}>
+          <Text style={{fontSize: responsiveFontSize(1.5), color: 'black'}}>
             Inclusive of all taxes
           </Text>
         </View>
@@ -60,13 +73,13 @@ const BookDetailScreen = ({route}) => {
                 color: 'black',
                 fontSize: responsiveFontSize(2),
               }}>
-              {qty!==0? 'Go to Cart' : 'Add to Cart:'}
+              {qty !== 0 ? 'Go to Cart' : 'Add to Cart:'}
             </Text>
             <View>
               <Image
                 style={styles.btnicon}
                 source={
-                  qty!==0
+                  qty !== 0
                     ? require('../assests/icon/checked.png')
                     : require('../assests/icon/grocery-store.png')
                 }
@@ -75,6 +88,7 @@ const BookDetailScreen = ({route}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <AskForLogin toggle={toggle} setToggle={setToggle} navigation={navigation}/>
     </>
   );
 };
@@ -109,13 +123,13 @@ const styles = StyleSheet.create({
   pricetxt: {
     fontSize: responsiveFontSize(2.6),
     fontWeight: '700',
-    color: 'white',
+    color: 'black',
   },
   bottomContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#383838',
+    backgroundColor: '#40A2E3',
     padding: 10,
   },
   btnicon: {
@@ -131,7 +145,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 10,
-    backgroundColor:"#faaa64"
+    backgroundColor: '#faaa64',
   },
 });
 export default BookDetailScreen;

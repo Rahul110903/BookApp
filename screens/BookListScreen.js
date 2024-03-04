@@ -106,7 +106,7 @@ const BookListScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   searchContainer: {
     padding: 13,
-    backgroundColor: 'white',
+    backgroundColor: '#40A2E3',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent:"space-evenly"
