@@ -50,7 +50,7 @@ const App=()=>{
           headerShown:false
         }}/>
         <Stack.Screen name="BookDetail" component={BookDetailScreen} options={{
-          headerTitle:"Book Details"
+          headerTitle:"Book Details",
         }}/>
         <Stack.Screen name="CartDetails" component={CartDetailsScreen} options={{
           headerTitle:"Order Details",
@@ -59,10 +59,12 @@ const App=()=>{
           headerTitle:"Order Summary"
         }}/>
         <Stack.Screen name="Login" component={LoginScreen} options={{
-          headerTitle:"Log In"
+          headerTitle:"Log In",
+          headerShown:false
         }}/>
         <Stack.Screen name="SignUp" component={SignUpScreen} options={{
-          headerTitle:"Sign Up"
+          headerTitle:"Sign Up",
+          headerShown:false
         }}/>
       </Stack.Navigator>
     </NavigationContainer>

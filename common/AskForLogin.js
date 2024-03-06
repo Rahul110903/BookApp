@@ -24,7 +24,7 @@ const AskForLogin = ({toggle, setToggle,navigation}) => {
   }
   return (
     <Modal visible={toggle} transparent={true}>
-      <Pressable style={{flex:1}} onPress={() => setToggle(false)}>
+      <Pressable style={{flex:1,backgroundColor:"rgba(0,0,0,0.7)"}} onPress={() => setToggle(false)}>
         <View style={styles.container}>
           <View
             style={{
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     height: responsiveHeight(30),
     width: responsiveWidth(85),
-    backgroundColor: 'orange',
+    backgroundColor: 'white',
     alignSelf: 'center',
     top: responsiveHeight(30),
     borderRadius: 7,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 1,
   },
   btn: {
-    backgroundColor: 'skyblue',
+    backgroundColor: '#2366f7',
     padding: 15,
     margin: 5,
     borderRadius: 10,
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   txt: {
     textAlign: 'center',
     fontWeight: 'bold',
+    color:"white"
   },
   maintxt: {
     color: 'black',

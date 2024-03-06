@@ -95,7 +95,7 @@ const BookDetailScreen = ({route,navigation}) => {
 const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
-    backgroundColor: '#ababab',
+    backgroundColor: 'skyblue',
     height: responsiveHeight(36),
     justifyContent: 'center',
   },
