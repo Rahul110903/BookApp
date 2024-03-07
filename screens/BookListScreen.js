@@ -15,6 +15,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import Books from '../components/Books';
 import {useSelector} from 'react-redux';
+import auth from '@react-native-firebase/auth';
+
 
 const BookListScreen = ({navigation}) => {
   const [search, setSearch] = useState('');
@@ -22,10 +24,19 @@ const BookListScreen = ({navigation}) => {
 
   const BooksData = useSelector(state => state.Books);
   const CartItems = useSelector(state => state.cart);
+  const [user, setUser] = useState();
+
+
+  useEffect(() => {
+    auth().onAuthStateChanged((user) => setUser(user));
+  }, []);
+
 
   const handleSearch = text => {
     setSearch(text);
   };
+
+  console.log(user)
 
   useEffect(() => {
     const filterData = BooksData.filter(book => {
@@ -41,15 +52,15 @@ const BookListScreen = ({navigation}) => {
     <View style={{flex: 1}}>
       {/* SearchField */}
       <View style={styles.searchContainer}>
-        <TouchableOpacity onPress={()=>navigation.openDrawer()}>
+        <TouchableOpacity onPress={() => navigation.openDrawer()}>
           <Image
             style={styles.searchicon}
-            source={require("../assests/icon/category.png")}
+            source={require('../assests/icon/category.png')}
           />
         </TouchableOpacity>
         <View style={styles.searchBox}>
           <TextInput
-            style={{flex:1}}
+            style={{flex: 1}}
             keyboardType="default"
             value={search}
             placeholder="Search"
@@ -76,12 +87,15 @@ const BookListScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      
+      {/* User Data  */}
+        <Text style={{fontSize:25,padding:10,color:"white",backgroundColor:"blue"}}>Hello {user?.email}</Text>
 
       {/* List of all Books Field */}
       {filterBooks !== 0 ? (
         <View>
           <Text style={styles.booktext}>All Books Available Shop Now !!</Text>
-          <View style={{margin:7}}>
+          <View style={{margin: 7}}>
             <FlatList
               contentContainerStyle={{paddingBottom: 150}}
               data={search ? filterBooks : BooksData}
@@ -109,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#40A2E3',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:"space-evenly"
+    justifyContent: 'space-evenly',
   },
   searchicon: {
     height: responsiveHeight(3),

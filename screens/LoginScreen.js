@@ -5,6 +5,8 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import {
   responsiveFontSize,
@@ -12,7 +14,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import auth from '@react-native-firebase/auth';
 
-const SignUpScreen = ({navigation}) => {
+const LoginScreen = ({navigation}) => {
+  const [loading,setLoading] = useState(false)
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -21,14 +24,21 @@ const SignUpScreen = ({navigation}) => {
     setUser(prev => ({...prev, [value]: text}));
   };
   const handleLogin = async () => {
+    setLoading(true)
     await auth()
       .signInWithEmailAndPassword(user.email, user.password)
       .then(response => {
-        console.log(response.additionalUserInfo, 'User Logged in Successfully');
+        navigation.navigate("Main")
+        
+        setUser({
+          email:"",
+          password:"",
+        })
       })
       .catch(error => {
         console.log(error);
       });
+      setLoading(false)
   };
   return (
     <View style={styles.container}>
@@ -50,7 +60,11 @@ const SignUpScreen = ({navigation}) => {
           />
         </View>
         <TouchableOpacity style={styles.btn} onPress={() => handleLogin()}>
-          <Text
+        {
+          loading ? (
+            <ActivityIndicator color="orange"/> 
+          ) : (
+            <Text
             style={{
               fontSize: responsiveFontSize(2),
               color: 'white',
@@ -59,12 +73,15 @@ const SignUpScreen = ({navigation}) => {
             }}>
             Login
           </Text>
+          )
+        }
+          
         </TouchableOpacity>
         <View style={{flexDirection: 'row', marginTop: responsiveHeight(1)}}>
           <Text style={{fontSize: responsiveFontSize(2)}}>
             Create new account{' '}
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+          <TouchableOpacity onPress={() =>navigation.navigate('SignUp')}>
             <Text
               style={{
                 fontSize: responsiveFontSize(2),
@@ -111,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUpScreen;
+export default LoginScreen;

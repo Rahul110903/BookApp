@@ -1,8 +1,17 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import auth from '@react-native-firebase/auth';
 
-const ProfileScreen = () => {
+
+const ProfileScreen = ({navigation}) => {
+
+  const signOut = () => {
+    auth()
+      .signOut()
+      .then(() => navigation.navigate("Login"));
+  };
+
   return (
     <ScrollView>
       <View style={{flex: 1}}>
@@ -39,7 +48,7 @@ const ProfileScreen = () => {
             <Text style={{fontSize: 15}}>Payment Methods</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>signOut()}>
           <View style={styles.btnContainer}>
             <Text style={{fontSize: 15, color: 'red'}}>Log Out</Text>
           </View>

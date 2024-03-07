@@ -14,6 +14,7 @@ import {
 import auth from '@react-native-firebase/auth';
 
 const SignUpScreen = ({navigation}) => {
+  const [loading,setLoading] = useState(false)
   const [user, setUser] = useState({
     name: '',
     email: '',
@@ -26,6 +27,7 @@ const SignUpScreen = ({navigation}) => {
     setUser(prev => ({...prev, [value]: text}));
   };
   const handleSubmit = async () => {
+    setLoading(true)
     if (user.password === user.confirmPassword) {
      await auth()
       .createUserWithEmailAndPassword(
@@ -33,7 +35,11 @@ const SignUpScreen = ({navigation}) => {
         user.password,
       )
       .then(() => {
-        console.log('User account created & signed in!');
+        setLoading(false)
+        Alert.alert(
+          "Success",
+          'User account created & signed in!',
+        );
         navigation.navigate("Login")
       })
       .catch(error => {
@@ -48,6 +54,7 @@ const SignUpScreen = ({navigation}) => {
       });
     } else {
       Alert.alert('Password is Incorrect');
+      setLoading(false)
     }
   };
   return (
