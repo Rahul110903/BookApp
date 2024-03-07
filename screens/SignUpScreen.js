@@ -11,7 +11,7 @@ import {
   responsiveFontSize,
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
-import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const SignUpScreen = ({navigation}) => {
   const [user, setUser] = useState({
@@ -21,30 +21,33 @@ const SignUpScreen = ({navigation}) => {
     password: '',
     confirmPassword: '',
   });
+
   const handleChange = (text, value) => {
     setUser(prev => ({...prev, [value]: text}));
   };
-  const handleSubmit = async() => {
+  const handleSubmit = async () => {
     if (user.password === user.confirmPassword) {
-      await firestore().collection('Users').add({
-          name: user.name,
-          email: user.email,
-          mobile: user.mobile,
-          password: user.password,
-        })
-        .then(() => {
-          console.log('User added!');
-          navigation.navigate("Login")
-          setUser({
-            name:"",
-            email:"",
-            mobile:"",
-            password:"",
-            confirmPassword:""
-          })
-        });
+     await auth()
+      .createUserWithEmailAndPassword(
+        user.email,
+        user.password,
+      )
+      .then(() => {
+        console.log('User account created & signed in!');
+        navigation.navigate("Login")
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+        console.error(error);
+      });
     } else {
-      Alert.alert("Password is Incorrect")
+      Alert.alert('Password is Incorrect');
     }
   };
   return (

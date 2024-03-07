@@ -81,7 +81,7 @@ const BookListScreen = ({navigation}) => {
       {filterBooks !== 0 ? (
         <View>
           <Text style={styles.booktext}>All Books Available Shop Now !!</Text>
-          <View style={{marginTop: 5}}>
+          <View style={{margin:7}}>
             <FlatList
               contentContainerStyle={{paddingBottom: 150}}
               data={search ? filterBooks : BooksData}

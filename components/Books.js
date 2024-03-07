@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     elevation:1
   },
   image: {
-    height: responsiveHeight(27),
+    height: responsiveHeight(22),
     width: responsiveWidth(40),
     borderRadius: 7,
   },

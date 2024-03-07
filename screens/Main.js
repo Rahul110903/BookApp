@@ -29,7 +29,7 @@ const Bottom = () => {
       initialRouteName="Home"
       activeColor="#faaf37"
       shifting={true}
-      barStyle={{height: 67}}
+      barStyle={{height: 62}}
       activeIndicatorStyle={{backgroundColor: '#faaf37'}}
       keyboardHidesNavigationBar={true}>
       <Tab.Screen
@@ -39,7 +39,7 @@ const Bottom = () => {
           tabBarIcon: () => {
             return (
               <Image
-                style={[styles.imageIcon, {height: 27, width: 27}]}
+                style={[styles.imageIcon, {height: 23, width: 23}]}
                 source={require('../assests/icon/home.png')}
               />
             );
@@ -67,7 +67,7 @@ const Bottom = () => {
           tabBarIcon: () => {
             return (
               <Image
-                style={[styles.imageIcon, {height: 27, width: 27}]}
+                style={[styles.imageIcon, {height: 23, width: 23}]}
                 source={require('../assests/icon/notification.png')}
               />
             );
@@ -81,7 +81,7 @@ const Bottom = () => {
           tabBarIcon: () => {
             return (
               <Image
-                style={[styles.imageIcon, {height: 27, width: 27}]}
+                style={[styles.imageIcon, {height: 23, width: 23}]}
                 source={require('../assests/icon/user.png')}
               />
             );
@@ -94,8 +94,8 @@ const Bottom = () => {
 
 const styles = StyleSheet.create({
   imageIcon: {
-    height: 29,
-    width: 29,
+    height: 25,
+    width: 25,
   },
 });
 

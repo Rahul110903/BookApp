@@ -10,9 +10,7 @@ import {
   responsiveFontSize,
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
-import firestore from '@react-native-firebase/firestore';
-import Filter from '@react-native-firebase/firestore';
-
+import auth from '@react-native-firebase/auth';
 
 const SignUpScreen = ({navigation}) => {
   const [user, setUser] = useState({
@@ -23,12 +21,14 @@ const SignUpScreen = ({navigation}) => {
     setUser(prev => ({...prev, [value]: text}));
   };
   const handleLogin = async () => {
-    const snapshot = await firestore()
-      .collection('Users')
-      .where('email', '==', user.email)
-      .where('password', '==',user.password)
-      .get();
-      console.log(snapshot)
+    await auth()
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then(response => {
+        console.log(response.additionalUserInfo, 'User Logged in Successfully');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   return (
     <View style={styles.container}>
@@ -43,6 +43,7 @@ const SignUpScreen = ({navigation}) => {
           />
           <TextInput
             style={styles.txtinput}
+            secureTextEntry={true}
             placeholder="Password"
             value={user.password}
             onChangeText={text => handleChange(text, 'password')}

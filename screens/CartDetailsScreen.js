@@ -100,7 +100,7 @@ const CartDetailsScreen = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: 9,
-            backgroundColor: '#383838',
+            backgroundColor: '#06899c',
             alignItems: 'center',
           }}>
           <Text
@@ -111,13 +111,9 @@ const CartDetailsScreen = ({navigation}) => {
             }}>
             Total Price : <Text style={{color: 'orange'}}>₹{getTotal()}</Text>
           </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('PlaceOrderDetails')}
-            style={styles.btntxt}>
-            <Text style={{fontWeight: '800', color: 'skyblue'}}>
-              Place Order
-            </Text>
-          </TouchableOpacity>
+          <View>
+          <Image style={{height:30,width:30}} source={require("../assests/icon/down-arrow.png")}/>
+          </View>
         </View>
       </View>
     ) : (
