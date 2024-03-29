@@ -13,7 +13,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 
-const Books = ({book, navigation}) => {
+const Books = ({book, navigation,user}) => {
   return (
       <TouchableOpacity style={styles.bookContainer}
         onPress={() =>
@@ -24,7 +24,8 @@ const Books = ({book, navigation}) => {
             image: book.imageLink,
             price: book.price,
             description: book.description,
-            qty:book.qty
+            qty:book.qty,
+            user:user
           })
         }>
         <View>

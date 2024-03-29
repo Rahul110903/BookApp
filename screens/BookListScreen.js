@@ -36,8 +36,6 @@ const BookListScreen = ({navigation}) => {
     setSearch(text);
   };
 
-  console.log(user)
-
   useEffect(() => {
     const filterData = BooksData.filter(book => {
       const searchLower = search.toLowerCase();
@@ -101,7 +99,7 @@ const BookListScreen = ({navigation}) => {
               data={search ? filterBooks : BooksData}
               keyExtractor={text => text.id}
               renderItem={text => (
-                <Books book={text.item} navigation={navigation} />
+                <Books book={text.item} navigation={navigation} user={user} />
               )}
             />
           </View>

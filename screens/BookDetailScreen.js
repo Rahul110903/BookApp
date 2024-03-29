@@ -22,19 +22,20 @@ const BookDetailScreen = ({route,navigation}) => {
 
   const [toggle,setToggle] = useState(false)
   const dispatch = useDispatch();
-  const {title, author, image, price, description, qty} = route.params;
+  const {title, author, image, price, description, qty,user} = route.params;
 
-  const checkUserStatus = async () => {
-    const status = await AsyncStorage.getItem('IS_USER_LOGGED_IN');
-    if (status === null) {
-      return false;
-    } else {
-      return true;
-    }
-  };
+  console.log(user,"user")
+
+  // const checkUserStatus = () => {
+  //   if (user) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
 
   const handleCart = () => {
-    if (checkUserStatus === true) {
+    if (user) {
       dispatch(addBookToCart(route.params));
       Alert.alert('Hurrayy!!', 'Book has been added to Cart Successfully');
     } else {
