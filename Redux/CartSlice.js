@@ -44,9 +44,13 @@ const CartSlice = createSlice({
         return item.id !== action.payload;
       }));
     },
+
+    emptyBookToCart(state,action){
+      return state=[]
+    }
   },
 });
 
-export const {addBookToCart, removeBookToCart, deleteBookToCart} =
+export const {addBookToCart, removeBookToCart, deleteBookToCart,emptyBookToCart} =
   CartSlice.actions;
 export default CartSlice.reducer;

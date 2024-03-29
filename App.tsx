@@ -27,6 +27,8 @@ import {addBooks} from './Redux/BookSlice';
 import Main from './screens/Main';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
+import OrderSuccess from './screens/OrderSuccess';
+import OrderScreen from './screens/OrderScreen';
 
 const App = () => {
   const Dispatch = useDispatch();
@@ -87,6 +89,21 @@ const App = () => {
           options={{
             headerTitle: 'Sign Up',
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Success"
+          component={OrderSuccess}
+          options={{
+            headerTitle: 'Success',
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Orders"
+          component={OrderScreen}
+          options={{
+            headerTitle: 'Orders',
           }}
         />
       </Stack.Navigator>

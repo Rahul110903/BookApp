@@ -33,7 +33,7 @@ const ProfileScreen = ({navigation}) => {
             <Text style={{fontSize: 15}}>Edit Profile</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate("Orders")}>
           <View style={styles.btnContainer}>
             <Text style={{fontSize: 15}}>Orders</Text>
           </View>

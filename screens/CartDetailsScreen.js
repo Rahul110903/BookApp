@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   responsiveFontSize,
   responsiveHeight,
@@ -19,18 +19,30 @@ import {
   deleteBookToCart,
   removeBookToCart,
 } from '../Redux/CartSlice';
+import RazorpayCheckout from 'react-native-razorpay';
+import {orderItem} from '../Redux/OrderSlice';
 
 const CartDetailsScreen = ({navigation}) => {
   const CartItems = useSelector(state => state.cart);
   const dispatch = useDispatch();
 
-  const getTotal=()=>{
-    let total=0;
-    CartItems.map((item)=>{
-      total=total+item.qty * item.price
+  const getTotal = () => {
+    let total = 0;
+    CartItems.map(item => {
+      total = total + item.qty * item.price;
     });
     return total;
-  }
+  };
+
+  const orderSuccess = success => {
+    const data = {
+      items: CartItems,
+      amount: `₹${getTotal()}`,
+      paymentId: success,
+    };
+    dispatch(orderItem(data))
+    navigation.navigate('Success')
+  };
 
   return (
     // ......Order Details......
@@ -111,14 +123,44 @@ const CartDetailsScreen = ({navigation}) => {
             }}>
             Total Price : <Text style={{color: 'orange'}}>₹{getTotal()}</Text>
           </Text>
-          <View>
-          <Image style={{height:30,width:30}} source={require("../assests/icon/down-arrow.png")}/>
-          </View>
+          <TouchableOpacity
+            onPress={() => {
+              var options = {
+                description: 'Credits towards consultation',
+                image: 'https://i.imgur.com/3g7nmJC.png',
+                currency: 'INR',
+                key: 'rzp_test_Gc3DD46BCMDvq7', // Your api key
+                amount: getTotal() * 100,
+                name: 'Payment',
+                prefill: {
+                  email: 'void@razorpay.com',
+                  contact: '9289734037',
+                  name: 'Razorpay Software',
+                },
+                theme: {color: '#F37254'},
+              };
+              RazorpayCheckout.open(options)
+                .then(data =>
+                  // {orderSuccess(data.razorpay_payment_id)}
+                  {
+                    orderSuccess(data.razorpay_payment_id);
+                  },
+                )
+                .catch(error => {
+                  // handle failure
+                  alert(`Error: ${error.code} | ${error.description}`);
+                });
+            }}
+            style={styles.btntxt}>
+            <Text style={{fontWeight: '800', color: 'skyblue'}}>
+              Place Order
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     ) : (
-      <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-        <Text style={{fontSize:20,fontWeight:"600"}}>Add to Cart Now</Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={{fontSize: 20, fontWeight: '600'}}>Add to Cart Now</Text>
       </View>
     )
   );
