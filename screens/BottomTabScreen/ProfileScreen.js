@@ -1,10 +1,17 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth';
 
 
 const ProfileScreen = ({navigation}) => {
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    auth().onAuthStateChanged((user) => setUser(user));
+  }, []);
+
+  console.log(user,"userdetails")
 
   const signOut = () => {
     auth()
@@ -26,7 +33,7 @@ const ProfileScreen = ({navigation}) => {
             source={require('../../assests/icon/profile.png')}
           />
           <Text style={[styles.txt, {fontSize: 18}]}>Rahul</Text>
-          <Text style={styles.txt}>rahulramola03@gmail.com</Text>
+          <Text style={styles.txt}>{user?.email}</Text>
         </View>
         <TouchableOpacity>
           <View style={styles.btnContainer}>
