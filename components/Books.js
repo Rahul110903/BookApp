@@ -37,7 +37,8 @@ const Books = ({book, navigation,user}) => {
               fontSize: responsiveFontSize(2.5),
               fontWeight: '700',
               color: '#141414',
-            }}>
+            }}
+            numberOfLines={2}>
             {book.title}
           </Text>
           <Text style={{fontSize: responsiveFontSize(1.7)}}>{book.author}</Text>

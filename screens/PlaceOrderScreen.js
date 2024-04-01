@@ -39,7 +39,7 @@ const CartDetailsScreen = ({navigation}) => {
       <View style={styles.CartContainer}>
         <FlatList
           data={CartItems}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.index}
           renderItem={element => (
             <View style={styles.innerContainer}>
               <Image style={styles.image} source={element.item.image} />

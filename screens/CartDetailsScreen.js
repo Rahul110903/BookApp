@@ -35,10 +35,22 @@ const CartDetailsScreen = ({navigation}) => {
   };
 
   const orderSuccess = success => {
+    const day = new Date().getDate();
+    const month = new Date().getMonth()+1;
+    const year = new Date().getFullYear();
+    const hours = new Date().getHours();
+    const minutes = new Date().getMinutes();
+    let ampm = ""
+    if(hours>12){
+      ampm= "PM"
+    } else {
+      ampm = "AM"
+    }
     const data = {
       items: CartItems,
       amount: `₹${getTotal()}`,
       paymentId: success,
+      DateAndTime: day + "/" + month + "/" + year + " " + hours + ":" + minutes + " " + ampm
     };
     dispatch(orderItem(data))
     navigation.navigate('Success')
@@ -51,12 +63,12 @@ const CartDetailsScreen = ({navigation}) => {
       <View style={styles.CartContainer}>
         <FlatList
           data={CartItems}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.index}
           renderItem={element => (
             <View style={styles.innerContainer}>
               <Image style={styles.image} source={element.item.image} />
               <View style={{marginVertical: 10, width: responsiveWidth(60)}}>
-                <Text style={styles.titletxt}>{element.item.title}</Text>
+                <Text numberOfLines={2} style={styles.titletxt}>{element.item.title}</Text>
                 <Text style={styles.authortxt}>{element.item.author}</Text>
                 <Text style={styles.pricetxt}>
                   Price : ₹<Text>{element.item.price}</Text>

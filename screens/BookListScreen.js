@@ -97,7 +97,7 @@ const BookListScreen = ({navigation}) => {
             <FlatList
               contentContainerStyle={{paddingBottom: 150}}
               data={search ? filterBooks : BooksData}
-              keyExtractor={text => text.id}
+              keyExtractor={text => text.index}
               renderItem={text => (
                 <Books book={text.item} navigation={navigation} user={user} />
               )}
